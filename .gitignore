@@ -148,11 +148,8 @@ vendor/bundle
 *.tar.gz
 *.rar
 *.7z
-dist/
-build/
 
 # Logs and Databases
-*.log
 *.sql
 *.sqlite
 *.db
@@ -170,7 +167,6 @@ docs/_build/
 site/
 
 # Secrets and Configuration
-.env
 .env.*
 !.env.example
 *.key
