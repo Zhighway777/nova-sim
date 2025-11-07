@@ -113,7 +113,6 @@ gradle-app.setting
 *.pdb
 
 # Rust
-target/
 Cargo.lock
 **/*.rs.bk
 
