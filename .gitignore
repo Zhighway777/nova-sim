@@ -116,16 +116,10 @@ gradle-app.setting
 target/
 Cargo.lock
 **/*.rs.bk
-*.pdb
 
 # Go
-*.exe
 *.exe~
-*.dll
-*.so
-*.dylib
 *.test
-*.out
 go.work
 
 # Ruby
@@ -156,9 +150,6 @@ vendor/bundle
 
 # Temporary Files
 *.tmp
-*.bak
-*.swp
-*.cache
 .temp/
 tmp/
 
