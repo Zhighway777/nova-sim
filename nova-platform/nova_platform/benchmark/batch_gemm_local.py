@@ -11,14 +11,20 @@ from nova_platform.base_model import (
 )
 from nova_platform.config import BossaNovaConfig, DType
 from nova_platform.benchmark.op_base import Workload, OpBase, Operand, GridShape, list_product
-from nova_platform.benchmark.batch_gemm import BatchGemmBase, MemArchType, BatchGemmGridShape, QuantType, bpe_for_quant
+from nova_platform.benchmark.batch_gemm import (
+    XpuBatchGemmBase,
+    MemArchType,
+    BatchGemmGridShape,
+    QuantType,
+    bpe_for_quant,
+)
 
 
 from nova_platform.benchmark.utils import _iter_access_gen
 from functools import lru_cache
 
 
-class BatchGemmLocal(BatchGemmBase):
+class BatchGemmLocal(XpuBatchGemmBase):
     def __init__(self, config: BossaNovaConfig, workload: Workload) -> None:
         super().__init__(config, workload)
         self.mem_arch_type = MemArchType.DSM_LOCAL

@@ -23,6 +23,7 @@ from nova_platform.dataflow.action.xpu_allreduce_action import XPUAllReduceActio
 from nova_platform.dataflow.action.xpu_allgather_action import XPUAllGatherAction
 from nova_platform.dataflow.action.xpu_allgather_gemm_action import XPUAllGatherGemmAction
 from nova_platform.dataflow.action.nop_action import XPUNopAction
+from nova_platform.dataflow.action.tpu_gemm_action import TPUGemmAction
 from nova_platform.base_model import DType
 from nova_platform.benchmark.op_base import Operand
 
@@ -197,6 +198,12 @@ class GemmLocalDataflowGenerator(GemmSharedDataflowGenerator):
         self.action_cls = XPULocalGemmAction
 
 
+class TPUGemmDataflowGenerator(GemmSharedDataflowGenerator):
+    def __init__(self, config: BossaNovaConfig, dataflow_config: Dict[str, Any], **kwargs) -> None:
+        super().__init__(config, dataflow_config, **kwargs)
+        self.action_cls = TPUGemmAction
+
+
 class ElementwiseDataflowGenerator(DataflowGenerator):
     _BINARY_OPS = {"add", "mul"}
     _ACTION_MAP = {
@@ -336,32 +343,108 @@ class AllGatherGemmDataflowGenerator(DataflowGenerator):
         self.add_input_tensor([n, k, b])
         self.add_output_tensor([n, m, b])
 
+class Backend:
+    def get_generator_cls(self, op_type: str):
+        raise NotImplementedError
 
-DATAFLOW_GENERATOR_MAPPING = {
-    "gemm": GemmSharedDataflowGenerator,
-    "gemm.shared": GemmSharedDataflowGenerator,
-    "gemm.local": GemmLocalDataflowGenerator,
-    "add": ElementwiseDataflowGenerator,
-    "mul": ElementwiseDataflowGenerator,
-    "gelu": ElementwiseDataflowGenerator,
-    "relu": ElementwiseDataflowGenerator,
-    "silu": ElementwiseDataflowGenerator,
-    "sigmoid": ElementwiseDataflowGenerator,
-    "layernorm": LayerNormDataflowGenerator,
-    "softmax": SoftmaxDataflowGenerator,
-    "softmaxbackward": SoftmaxDataflowGenerator,
-    "gather": GatherDataflowGenerator,
-    "scatter": ScatterDataflowGenerator,
-    "transpose": TransposeDataflowGenerator,
-    "sdpa": SdpaDataflowGenerator,
-    "allreduce": AllReduceDataflowGenerator,
-    "allgather": AllGatherDataflowGenerator,
-    "allgather_gemm": AllGatherGemmDataflowGenerator,
-}
+    def has_generator(self, op_type: str) -> bool:
+        raise NotImplementedError
 
+class XPUBackend(Backend):
+    def __init__(self):
+        self._generator_mapping = {
+            "gemm": GemmSharedDataflowGenerator,
+            "gemm.shared": GemmSharedDataflowGenerator,
+            "gemm.local": GemmLocalDataflowGenerator,
+            "add": ElementwiseDataflowGenerator,
+            "mul": ElementwiseDataflowGenerator,
+            "gelu": ElementwiseDataflowGenerator,
+            "relu": ElementwiseDataflowGenerator,
+            "silu": ElementwiseDataflowGenerator,
+            "sigmoid": ElementwiseDataflowGenerator,
+            "layernorm": LayerNormDataflowGenerator,
+            "softmax": SoftmaxDataflowGenerator,
+            "softmaxbackward": SoftmaxDataflowGenerator,
+            "gather": GatherDataflowGenerator,
+            "scatter": ScatterDataflowGenerator,
+            "transpose": TransposeDataflowGenerator,
+            "sdpa": SdpaDataflowGenerator,
+            "allreduce": AllReduceDataflowGenerator,
+            "allgather": AllGatherDataflowGenerator,
+            "allgather_gemm": AllGatherGemmDataflowGenerator,
+        }
+
+    def get_generator_cls(self, op_type: str):
+        return self._generator_mapping[op_type]
+    
+    def has_generator(self, op_type: str) -> bool:
+        return op_type in self._generator_mapping
+
+class TPUBackend(Backend):
+    def __init__(self):
+        self._generator_mapping = {
+            "gemm": TPUGemmDataflowGenerator,
+            "gemm.shared": TPUGemmDataflowGenerator,
+            "gemm.local": TPUGemmDataflowGenerator,
+        }
+
+    def get_generator_cls(self, op_type: str):
+        return self._generator_mapping[op_type]
+
+    def has_generator(self, op_type: str) -> bool:
+        return op_type in self._generator_mapping
+
+class GPUBackend(Backend):
+    def __init__(self):
+        self._generator_mapping = {
+            # 以后再填 GPU 自己的一套 op -> Generator
+        }
+
+    def get_generator_cls(self, op_type: str):
+        return self._generator_mapping[op_type]
+
+    def has_generator(self, op_type: str) -> bool:
+        return op_type in self._generator_mapping
+
+
+# DATAFLOW_GENERATOR_MAPPING = {
+#     "gemm": GemmSharedDataflowGenerator,
+#     "gemm.shared": GemmSharedDataflowGenerator,
+#     "gemm.local": GemmLocalDataflowGenerator,
+#     "add": ElementwiseDataflowGenerator,
+#     "mul": ElementwiseDataflowGenerator,
+#     "gelu": ElementwiseDataflowGenerator,
+#     "relu": ElementwiseDataflowGenerator,
+#     "silu": ElementwiseDataflowGenerator,
+#     "sigmoid": ElementwiseDataflowGenerator,
+#     "layernorm": LayerNormDataflowGenerator,
+#     "softmax": SoftmaxDataflowGenerator,
+#     "softmaxbackward": SoftmaxDataflowGenerator,
+#     "gather": GatherDataflowGenerator,
+#     "scatter": ScatterDataflowGenerator,
+#     "transpose": TransposeDataflowGenerator,
+#     "sdpa": SdpaDataflowGenerator,
+#     "allreduce": AllReduceDataflowGenerator,
+#     "allgather": AllGatherDataflowGenerator,
+#     "allgather_gemm": AllGatherGemmDataflowGenerator,
+# }
+
+
+def get_backend(config: BossaNovaConfig) -> Backend:
+    arch = getattr(config, "arch", "xpu")
+    if arch == 'xpu':
+        return XPUBackend()
+    elif arch == 'tpu':
+        return TPUBackend()
+    elif arch == 'gpu':
+        return GPUBackend()
+    else:
+        raise RuntimeError(f"Unsupported backend arch: {arch}")
+    
 
 def generate_dataflow(config: BossaNovaConfig, dataflow_config: Dict[str, Any], topo: TOPO, case_id: int):
     bench_op_type = dataflow_config.get("bench_op_type", "")
-    generator_cls = DATAFLOW_GENERATOR_MAPPING[bench_op_type]
+    backend = get_backend(config) 
+    generator_cls = backend.get_generator_cls(bench_op_type)
     generator = generator_cls(config, dataflow_config, topo=topo, case_id=case_id)
     return generator.generate_dataflow()

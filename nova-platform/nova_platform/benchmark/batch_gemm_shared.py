@@ -12,7 +12,7 @@ from nova_platform.base_model import (
 from nova_platform.config import BossaNovaConfig
 from nova_platform.benchmark.op_base import Workload, OpBase, Operand, GridShape, list_product, DType
 from nova_platform.benchmark.batch_gemm import (
-    BatchGemmBase,
+    XpuBatchGemmBase,
     MemArchType,
     BatchGemmGridShape,
     QuantType,
@@ -125,7 +125,7 @@ def _get_sip_workloads(sic_workload: Workload, batch_gemm_shape: BatchGemmGridSh
     return sip_workloads
 
 
-class BatchGemmShared(BatchGemmBase):
+class BatchGemmShared(XpuBatchGemmBase):
 
     def __init__(self, config: BossaNovaConfig, workload: Workload) -> None:
         super().__init__(config, workload)

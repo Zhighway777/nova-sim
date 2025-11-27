@@ -36,6 +36,7 @@ class SimulationPipeline:
         if not config_template.is_absolute():
             config_template = (repo_dir / config_template).resolve()
         self.config_template = config_template
+        self.arch = self._detect_arch(self.config_template)
 
         if output_root is None:
             output_root = repo_dir / "out" / "nova_lite"
@@ -108,10 +109,27 @@ class SimulationPipeline:
 
     def _build_case_dir(self, dtype: DType, shape: List[int], bench_version: int) -> Path:
         shape_token = "-".join(str(dim) for dim in shape)
-        dirname = f"gemm_v{bench_version}_{dtype.name.lower()}_{shape_token}"
+        arch_token = f"_{self.arch.lower()}" if self.arch else ""
+        dirname = f"gemm_v{bench_version}_{dtype.name.lower()}_{shape_token}{arch_token}"
         case_dir = self.output_root / dirname
         case_dir.mkdir(parents=True, exist_ok=True)
         return case_dir
+
+    def _detect_arch(self, config_template: Path) -> str | None:
+        try:
+            with open(config_template) as f:
+                for line in f:
+                    stripped = line.strip()
+                    if not stripped or stripped.startswith("#"):
+                        continue
+                    if stripped.lower().startswith("arch"):
+                        parts = stripped.split(":")
+                        if len(parts) >= 2:
+                            val = parts[1].strip()
+                            return val or None
+        except Exception:
+            pass
+        return None
 
     def _collect_results(self, case_dir: Path) -> SimulationResult:
         report_files = sorted(case_dir.glob("gcu*/report.yaml"))

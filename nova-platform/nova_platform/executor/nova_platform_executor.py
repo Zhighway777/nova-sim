@@ -67,7 +67,7 @@ from nova_platform.executor.nova_platform_event import BossaNovaEvent
 from nova_platform.perfetto_protobuf._tgen import TraceGenerator
 from nova_platform.utils.config_utils import dict_to_dataclass
 from nova_platform.utils.cuda_utils import get_gpu_count
-from nova_platform.executor.dataflow_gen import generate_dataflow, DATAFLOW_GENERATOR_MAPPING
+from nova_platform.executor.dataflow_gen import generate_dataflow, get_backend
 
 import logging
 
@@ -539,7 +539,8 @@ class BossaNovaExecutor():
 
         dataflow_config = {**dataflow_config, **self.dataflow_config}
         bench_op_type = dataflow_config["bench_op_type"]
-        python_supported = bench_op_type in DATAFLOW_GENERATOR_MAPPING
+        backend = get_backend(self.config)
+        python_supported = backend.has_generator(bench_op_type)
 
         if python_supported:
             return generate_dataflow(self.config, dataflow_config, self.esl_switch.topo, self.case_idx)

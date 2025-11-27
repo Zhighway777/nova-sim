@@ -3,11 +3,13 @@ from typing import Generator, List, Tuple, Dict
 from collections import deque
 import itertools
 from enum import Enum
+from abc import ABC, abstractmethod
 
 from nova_platform.benchmark.op_base import Workload, OpBase, Operand, GridShape, list_product
 from nova_platform.benchmark.utils import _iter_access_gen
 from nova_platform.config import BossaNovaConfig
 from nova_platform.base_model import DType
+
 
 import logging
 
@@ -82,8 +84,58 @@ def compute_dtype_for_quant(dtype: DType, quant_type: QuantType):
     else:
         raise RuntimeError(f"unsupported quant type {quant_type}")
 
+class BatchGemmBase(OpBase, ABC):
+    """
+    Backend-agnostic GEMM tiler基类，子类实现各自硬件的拆分/代价/工作负载逻辑。
+    """
 
-class BatchGemmBase(OpBase):
+    def __init__(self, config: BossaNovaConfig, workload: Workload) -> None:
+        super().__init__(config, workload)
+        self.in_batch = workload.inputs[0].dim[0]
+        self.in_m = workload.inputs[0].dim[1]
+        self.in_n = workload.inputs[1].dim[2]
+        self.in_k = workload.inputs[1].dim[1]
+        self.quant_type = QuantType(workload.attr.get("quant_type", "No_Quant"))
+        self.bpe = bpe_for_quant(self.dtype, self.quant_type)
+        self.compute_dtype = compute_dtype_for_quant(self.dtype, self.quant_type)
+        self.has_bias = workload.attr.get("has_bias", False)
+        if not self.has_bias:
+            self.bpe["bias"] = 0
+        self.shape_list: List[Tuple[int, BatchGemmGridShape]] = []
+        self._tiled_workloads = None
+
+    @abstractmethod
+    def split(self):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def impl(self):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def _calc_sol_cost(self, batch_gemm_shape: BatchGemmGridShape):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def _gen_workloads(self, batch_gemm_shape: BatchGemmGridShape, first_sip_only=False):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def _sort_shape_candidates(self, shape_list: List[Tuple[int, BatchGemmGridShape]]):
+        raise NotImplementedError()
+
+    @abstractmethod
+    def get_best_shape(self) -> BatchGemmGridShape:
+        raise NotImplementedError()
+
+    def calc_flops_total(self):
+        return self.in_batch * self.in_m * self.in_n * self.in_k * 2.0
+
+    def get_tiled_workloads(self):
+        return self._tiled_workloads
+
+
+class XpuBatchGemmBase(BatchGemmBase):
 
     def __init__(self, config: BossaNovaConfig, workload: Workload) -> None:
         super().__init__(config, workload)
@@ -630,6 +682,7 @@ class BatchGemmBase(OpBase):
         #     calc_ceil_K_l2=256,
         # )
         self.tiled_workloads = self._gen_workloads(best_shape)
+        self._tiled_workloads = self.tiled_workloads
 
     def get_best_shape(self) -> BatchGemmGridShape:
         return self.shape_list[0][1]

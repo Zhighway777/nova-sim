@@ -1,0 +1,102 @@
+name:       libra_1DIE_3.2TB_24SIP_256OST_tpu
+arch:       tpu
+arch_name:  libra
+inst_num:
+  NUM_OF_CLUSTER:             8
+  NUM_OF_CORE_PER_CLUSTER:    16
+  NUM_OF_DSM:                 8
+  NUM_OF_DIE:                 1
+  NUM_OF_ESL_PER_DIE:         8
+
+freq:
+  CORE:          1.5
+  INTERCONNECT:  1.6
+  NOC:           1.6
+  LLC:           1.6
+  MC:            1.6
+  L3:            0.8
+  ESL:           1.0
+
+compute:
+  thread_2d_throughput:
+    FP32:   1024
+    TF32:   4096
+    FP16:   4096
+    FP8:    8192
+    INT8:   8192
+  thread_1d_throughput:
+    FP32:   128
+    FP16:   256
+    FP8:    256
+  thread_sfu_throughput: 32
+  compute_parallel_capability: 0
+
+dte:
+  THREAD_NUMBER:    4
+  BW_PER_DTE_THEAD: 128
+
+bw:
+  xpu:
+    freq_domain:        core
+    otsd:               256
+  cdte:
+    freq_domain:        interconnect
+    otsd:               384
+  l0:
+    freq_domain:        core
+    local:              [[32,  0], 256, 1]
+    shared:             [[100, 0], 256, 1]
+    sic_io:             [[80,  0], 128, 1]
+  local:
+    freq_domain:        core
+    sic_io:             [[80,  0], !eval 1*128, 1]
+  shared:
+    freq_domain:        interconnect
+    sic_io:             [[80,  0], !eval 1*128, 1]
+  sic_io:
+    freq_domain:        interconnect
+    noc:                [[66,  0], !eval 4*128, 1]
+  noc:
+    freq_domain:        noc
+    llc:                [[46,  0], !eval 4*128, 1]
+    llc_far:            [[355, 0], 0, 1, !eval 0.8*8/2*2**40]
+  llc:
+    freq_domain:        llc
+    mc:                 [[70,  0], !eval 16*128, 1]
+  llc_far:
+    freq_domain:        llc
+    mc:                 [[70,  0], !eval 16*128, 1]
+  mc:
+    freq_domain:        mc
+    l3:                 [[160, 160], !eval 0.75*16*128, 1]
+  l3:
+    freq_domain:        l3
+  esl:
+    otsd:               512
+    freq_domain:        esl
+    noc:                [[624,0], 0, 1, !eval 2*25*2**30]
+
+memory:
+  common:
+    DSM_PRIVATE_SHARED_RATIO: 0.2
+  l3:
+    TOTAL_SIZE: !eval 144 * 2**30
+  llc:
+    CACHE_LINE_SIZE:  128
+    CACHE_WAYS:       16
+    CACHE_SIZE: !eval 1024 * 2**10
+    MEM_LATENCY:      200
+    NON_MEM_LATENCY:  600
+    NUM_MSHR:         256
+    NUM_OF_PARTITIONS:            4
+    NUM_OF_SLICES_PER_PARTITION:  4
+  l2:
+    SIZE_PER_SIC: !eval 7 * 2**20
+  l1:
+    SIZE_PER_CORE: !eval 896 * 2**10
+  l0:
+    IV_SIZE : !eval 16 * 1024
+    SMR_SIZE: !eval 16 * 1024
+    OA_SIZE: !eval 768 * 512
+
+power: !include pw_libra.yaml

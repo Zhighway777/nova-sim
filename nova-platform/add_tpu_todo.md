@@ -7,7 +7,7 @@
 
 ## 2. Dataflow Generation
 - Introduce TPU-aware generator(s) in `nova_platform/executor/dataflow_gen.py`:
-  - Create `TpuGemmDataflowGenerator` (and other ops as needed) deriving from `DataflowGenerator`.
+  - Create `TPUGemmDataflowGenerator` (and other ops as needed) deriving from `DataflowGenerator`.
   - Encode TPU tile/grid/block semantics, memory allocation limits, and `TileInfo` layout.
   - Register new generators in `DATAFLOW_GENERATOR_MAPPING` with distinct `bench_op_type` keys (e.g., `tpu_gemm`).
 - Ensure `SimulationPipeline`/CLI can select TPU op types by writing the proper `bench_op_type` into `dataflow_config`.
