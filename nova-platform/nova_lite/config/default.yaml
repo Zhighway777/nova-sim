@@ -1,0 +1,118 @@
+name:      default
+arch_name: eltanin
+inst_num:
+  NUM_OF_CLUSTER: 8
+  NUM_OF_CORE_PER_CLUSTER: 8
+  NUM_OF_DSM: 10
+
+freq:
+  CORE_CLOCK_DOMAIN: 1.8 # GHz
+  INTERCONNECT_CLOCK_DOMAIN: 2.0
+  LLC_CLOCK_DOMAIN: 2.0
+  MC_CLOCK_DOMAIN: 0.9
+  L3_CLOCK_DOMAIN: 1 # 1GHz
+
+compute: 
+  thread_2d_throughput:
+    FP32: 1024
+    TF32: 4096
+    FP16: 4096
+    FP8:  8192
+    INT8: 8192
+  thread_1d_throughput:
+    FP32: 128
+    TF32: 256
+    FP16: 256
+    FP8:  256
+    INT8: 128      
+
+dte:
+  THREAD_NUMBER: 6
+  BW_PER_DTE_THEAD: 128 #Byte/cycle
+
+latency: 
+  # [CORE/SIP, Interconnect, LLC, MC] Clock Domain Latency (Cycle)
+  l0: # Src
+    LOCAL:  [30  ,  0,  0,  0] # Dst
+    L1C:    [30  ,  0,  0,  0]
+    SHARED: [100 ,  0,  0,  0]
+  local:
+    SIC_IO: [80  ,150,  0,  0]
+  l1c:
+    SIC_IO: [80  ,150,  0,  0]
+  shared:
+    SIC_IO: [80  ,150,  0,  0]
+  sic_io:
+    LLC:    [0   ,  0,150,  0]
+  llc:
+    MC:     [0   , 50,  0,350]
+  mc:
+    L3:     [0   ,  0,  0,  0]
+bw:
+  # L0-L1$/Local/Shared-SIC_IO-LLC-L3
+  xpu:
+    l0:
+      SHARED:    !eval 2*128   # Byte/Cycle
+      SHARED_RW_RATIO: 2
+      LOCAL:     !eval 2*128
+      LOCAL_RW_RATIO:  2
+      L1C:       !eval 2*128
+      L1C_RW_RATIO:    2
+    l1c:
+      SIC_IO:    !eval 2*128   # Read带宽
+      SIC_IO_RW_RATIO: 2
+    sic_io:
+      LLC:       !eval 12*128  # Read带宽
+      LLC_RW_RATIO:    2
+    llc:
+      MC:        !eval 96*128  # 5.4TB/s
+      MC_RW_RATIO:     2
+    mc:
+      L3:        !eval 0.75*32*128 # 1GHz
+      L3_RW_RATIO:     1
+
+  cdte:
+    local:
+      SIC_IO:    !eval 1*128   # Read带宽
+      SIC_IO_RW_RATIO: 2
+    shared:
+      SIC_IO:    !eval 1*128   # Read带宽
+      SIC_IO_RW_RATIO: 2
+    sic_io:
+      LLC:       !eval 12*128  # Read带宽
+      LLC_RW_RATIO:    2
+    llc:
+      MC:        !eval 6*8*128  # 5.4TB/s 6HBMs*8ports/HBM
+      MC_RW_RATIO:     2
+    mc:
+      L3:        !eval 0.75*32*128 # 1GHz
+      L3_RW_RATIO:     1
+
+memory:
+  common:
+    DSM_PRIVATE_SHARED_RATIO: 0.2
+  l3:
+    TOTAL_SIZE: !eval 12 * 8 * 2**30 # 96GB
+  llc:
+    CACHE_LINE_SIZE: 128
+    CACHE_WAYS: 1024 # 16 cache ways
+    CACHE_SIZE: !eval 512*2**10 #48MB/slice*96slice=4.5GB total
+    MEM_LATENCY: 200 # ns
+    NON_MEM_LATENCY: 600 # ns
+    NUM_MSHR: 256
+    NUM_OF_PARTITIONS: 1
+    NUM_OF_SLICES_PER_PARTITION: 96
+  l1: 
+    SIZE_PER_CORE: !eval 8 * 2**20
+  l1c:
+    CACHE_LINE_SIZE: 128
+    CACHE_WAYS: 1024 #  16 cache ways
+    CACHE_SIZE: !eval 256 * 2**10 #256KB
+    MEM_LATENCY: 200 # ns
+    NON_MEM_LATENCY: 600 # ns
+    NUM_MSHR: 256
+    NUM_OF_CORE: 64
+    CACHE_SIZE_PER_CORE: !eval 256*2**10
+  l0:
+    IV_SIZE : !eval 16 * 1024           # Byte
+    SMR_SIZE: !eval 16 * 1024           # Byte

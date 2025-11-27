@@ -1,0 +1,75 @@
+name:       google_tpu
+arch_name:  v2
+
+inst_num:
+  NUM_OF_CHIP:                 256            # Supercomputer最大芯片数
+  NUM_OF_CORE_PER_CHIP:        2
+  NUM_OF_MXU_PER_CORE:         1
+  MXU_SIZE:                    [128, 128]
+  NUM_OF_HBM_STACKS:           4
+  NUM_OF_ICI_LINKS:            4
+
+freq:
+  CORE:          0.70           # GHz
+  INTERCONNECT:  0.70
+  HBM:           0.70
+  PCIe:          0.70
+
+compute:
+  precision:
+    FP32: 4096                 # 4 TFLOPS per chip
+    BF16: !eval 123 * 1024     # 123 TFLOPS per chip (16-bit)
+  tensor_core_throughput:
+    MXU_PER_CORE: 1
+    MAC_PER_MXU: 16384
+  total_tensor_mac_per_chip: !eval 2 * 1 * 128 * 128
+
+dte:
+  THREAD_NUMBER:    6
+  BW_PER_THREAD:    128
+
+bw:
+  interconnect:
+    type:     2D-torus
+    dimension: [16, 16]
+    link_bw:  496e9             # bits/s per link
+    bisection_bw: 15.9e12       # bits/s for 256-chip system
+  hbm:
+    per_stack_bw: 175e9         # bytes/s
+    total_bw_per_chip: 700e9    # bytes/s
+  pcie:
+    per_link_bw: 32e9           # bytes/s (x16 PCIe)
+
+memory:
+  on_chip:
+    IMEM_SIZE:   4 * 2**10       # 4KB instruction memory
+    SMEM_SIZE:   4 * 2**10       # 4KB scalar memory
+    VMEM_SIZE:   16 * 2**20      # 16MB vector memory per core
+  hbm:
+    TOTAL_SIZE_PER_CHIP: !eval 16 * 2**30
+    BANDWIDTH_PER_CHIP: !eval 700 * 2**30
+  cache:
+    L0: none                     # 无传统cache
+    L1: software-managed
+    L2: software-managed
+  interconnect_topology:
+    type: 2D_torus
+    dimension: [16, 16]
+    link_per_chip: 4
+
+power:
+  TDP_PER_CHIP: 280             # Watts
+  TDP_SUPERCOMPUTER: 124000     # Watts for 256 chips (124 kW)
+
+# technology:
+#   process: >12nm
+#   die_size: 611                 # mm^2
+#   cooling: air
+
+# summary:
+#   peak_flops_per_chip: 123 TFLOPS (BF16)
+#   memory_bw_per_chip: 700 GB/s
+#   interconnect_bw_per_link: 496 Gbit/s × 4
+#   total_supercomputer_perf: 11.8 PFLOPS
+#   scaling_efficiency: 96%–99% linear speedup
+#   perf_per_watt: ~5× better than contemporary GPU clusters

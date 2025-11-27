@@ -1,0 +1,65 @@
+board_efficiency: 0.82
+sip:
+  voltage:                            0.92
+  voltage_scaling:                    0.825
+  idle_power:                         0.18E+12
+  leakage_power:                      0.60E+12
+  plc_power:                          1.10E+12
+  compute_2d_mac_energy:
+    fp16:                             1.96
+    fp8:                              0.97
+    int8:                             0.98
+  compute_1d_op_energy:
+    fp32:                            43.00
+    fp16:                            20.00
+    int64:                           77.00
+    int32:                           37.50
+  compute_msf_op_energy:             33.50
+  xpu_l0_dsm_local_energy:            2.44
+  xpu_l0_dsm_shared_energy:           3.84
+  xpu_l0_l3_energy:                   3.08
+
+dtu_edc:                                500
+
+l1:
+  voltage:                            0.92
+  voltage_scaling:                    0.825
+  idle_power:                        0.37E+12
+  leakage_power:                     0.45E+12
+  sip_master_energy:                  3.0
+  dte_master_energy:                  0.0
+  xpu_dsm_local_l3_energy:            2.44
+  xpu_dsm_shared_l3_energy:           7.34
+  xpu_dsm_shared_dsm_shared_energy:  14.69
+  xpu_l3_l3_energy:                   0.0
+  dte_dsm_local_l3_energy:            2.44
+  dte_dsm_shared_l3_energy:           7.34
+  dte_dsm_shared_dsm_shared_energy:  14.69
+  dte_l3_l3_energy:                   0.0
+
+soc:
+  voltage:                            0.85
+  voltage_scaling:                    0.69
+  mc_idle_power:                      3.60E+12
+  dataflow_idle_power:               13.80E+12
+  esl_idle_power:                    13.60E+12
+  d2d_idle_power:                     0.00E+12
+  leakage_power:                     15.00E+12
+  other_power:                       50.00E+12
+  cdte_master_energy:                 4.20
+  llc_hit_data_energy:               16.20
+  llc_miss_data_energy:              30.30
+  sic_io:                             2.34
+mem:
+  voltage_scaling:                    1.00
+  leakage_power:                      4.00E+12
+  hbm_active_power:                 160.40E+12
+  hbm_idle_power:                    20.80E+12
+esl:
+  idle_power:                        23.00E+12
+  leakage_power:                      4.00E+12
+  active_power:                      29.00E+12
+d2d:
+  idle_power:                         0
+  leakage_power:                      0
+  active_power:                       0

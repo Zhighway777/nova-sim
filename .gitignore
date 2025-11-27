@@ -1,0 +1,42 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor/OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Python bytecode/cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test/coverage artifacts
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+.cache/
+
+# Type checker / linter caches
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.dmypy.json
+
+# Build/distribution artifacts
+build/
+dist/
+*.egg-info/
+*.eggs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Project-specific generated output
+nova-platform/out/

@@ -1,0 +1,90 @@
+name:       base_npu
+arch_name:  npu
+
+inst_num:
+  NUM_OF_CLUSTER:             8
+  NUM_OF_CORE_PER_CLUSTER:    8
+  NUM_OF_DSM:                 8
+  NUM_OF_DIE:                 1
+  NUM_OF_ESL_PER_DIE:         1
+
+freq:
+  CORE:          1.8
+  INTERCONNECT:  2.0
+  NOC:           2.0
+  LLC:           2.0
+  MC:            0.9
+  L3:            1.0
+  ESL:           1.0
+
+compute:
+  thread_2d_throughput:
+    FP32: 1024
+    FP16: 4096
+  thread_1d_throughput:
+    FP32: 128
+    FP16: 256
+
+dte:
+  THREAD_NUMBER:    6
+  BW_PER_DTE_THEAD: 128
+
+bw:
+  xpu:
+    freq_domain: core
+    otsd: 256
+  cdte:
+    freq_domain: core
+    otsd: 256
+    local:   [[0, 0], !eval 1*128, 2]
+    shared:  [[0, 0], !eval 1*128, 2]
+    sic_io:  [[0, 0], !eval 12*128, 2]
+    llc:     [[0, 0], !eval 6*8*128, 2]
+    mc:      [[0, 0], !eval 0.75*32*128, 1]
+  l0:
+    freq_domain: core
+    local:   [[0, 0], !eval 2*128, 2]
+    shared:  [[0, 0], !eval 2*128, 2]
+    sic_io:  [[0, 0], !eval 2*128, 2]
+  local:
+    freq_domain: core
+    sic_io: [[0, 0], !eval 1*128, 2]
+  shared:
+    freq_domain: interconnect
+    sic_io: [[0, 0], !eval 1*128, 2]
+  sic_io:
+    freq_domain: interconnect
+    llc: [[0, 0], !eval 12*128, 2]
+  llc:
+    freq_domain: llc
+    mc: [[0, 0], !eval 96*128, 2]
+  mc:
+    freq_domain: mc
+    l3: [[0, 0], !eval 0.75*32*128, 1]
+  l3:
+    freq_domain: l3
+
+memory:
+  common:
+    DSM_PRIVATE_SHARED_RATIO: 0.2
+  l3:
+    TOTAL_SIZE: !eval 12 * 8 * 2**30
+  llc:
+    CACHE_LINE_SIZE:  128
+    CACHE_WAYS:       1024
+    CACHE_SIZE:       !eval 512 * 2**10
+    MEM_LATENCY:      200
+    NON_MEM_LATENCY:  600
+    NUM_MSHR:         256
+    NUM_OF_PARTITIONS:            1
+    NUM_OF_SLICES_PER_PARTITION:  96
+  l2:
+    SIZE_PER_SIC: !eval 0
+  l1:
+    SIZE_PER_CORE: !eval 8 * 2**20
+  l0:
+    IV_SIZE:  !eval 16 * 1024
+    SMR_SIZE: !eval 16 * 1024
+    OA_SIZE:  !eval 0
+
+power: !include pw_eltanin.yaml

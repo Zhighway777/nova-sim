@@ -1,0 +1,5 @@
+numpy>=1.23
+PyYAML>=6.0
+protobuf>=4.21
+networkx>=2.8
+tqdm>=4.64

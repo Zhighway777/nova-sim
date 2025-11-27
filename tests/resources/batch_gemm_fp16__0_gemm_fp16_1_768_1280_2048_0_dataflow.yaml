@@ -1,0 +1,1190 @@
+dataflow_name: batch_gemm_fp16__0_gemm_fp16_1_768_1280_2048
+dataflow_id: 0
+odte_total_bytes: 0
+cdte_total_bytes: 16252928
+sdte_total_bytes: 0
+action_list:
+  - action_id: 0
+    action_type: cdte
+    engine_id: 0
+    op: slice
+    engine_sub_id: 0
+    param0: [512, 1280, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 1, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 1280, 1, 1], stride_dims: [2048, 1280, 1, 1], bpe: 2, addr: 0x500001e0000}]
+    outputs:
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1000}]
+    child_action_ids: [2, 3, 4, 5]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: [0, 1]}
+    input_hints: []
+  - action_id: 1
+    action_type: cdte
+    engine_id: 0
+    op: slice
+    engine_sub_id: 2
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 3, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40004001000}]
+    child_action_ids: [8, 2, 3, 4, 5]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 1, values: [2, 3, 4]}
+    input_hints: []
+  - action_id: 14
+    action_type: cdte
+    engine_id: 4
+    op: slice
+    engine_sub_id: 0
+    param0: [512, 1280, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 1, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 1280, 1, 1], stride_dims: [2048, 1280, 1, 1], bpe: 2, addr: 0x500001e0000}]
+    outputs:
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1000}]
+    child_action_ids: [16, 17, 18, 19]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 3, values: [7, 8]}
+    input_hints: []
+  - action_id: 15
+    action_type: cdte
+    engine_id: 4
+    op: slice
+    engine_sub_id: 2
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 6, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c001000}]
+    child_action_ids: [22, 16, 17, 18, 19]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 4, values: [9, 10, 11]}
+    input_hints: []
+  - action_id: 28
+    action_type: cdte
+    engine_id: 8
+    op: slice
+    engine_sub_id: 0
+    param0: [512, 1280, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 1, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 1280, 1, 1], stride_dims: [2048, 1280, 1, 1], bpe: 2, addr: 0x500001e0000}]
+    outputs:
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1000}]
+    child_action_ids: [30, 31, 32, 33]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 6, values: [14, 15]}
+    input_hints: []
+  - action_id: 29
+    action_type: cdte
+    engine_id: 8
+    op: slice
+    engine_sub_id: 2
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 9, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40014001000}]
+    child_action_ids: [36, 30, 31, 32, 33]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 7, values: [16, 17, 18]}
+    input_hints: []
+  - action_id: 42
+    action_type: cdte
+    engine_id: 12
+    op: slice
+    engine_sub_id: 0
+    param0: [512, 1280, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 1, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 1280, 1, 1], stride_dims: [2048, 1280, 1, 1], bpe: 2, addr: 0x500001e0000}]
+    outputs:
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1000}]
+    child_action_ids: [44, 45, 46, 47]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 9, values: [21, 22]}
+    input_hints: []
+  - action_id: 43
+    action_type: cdte
+    engine_id: 12
+    op: slice
+    engine_sub_id: 2
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 12, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c001000}]
+    child_action_ids: [50, 44, 45, 46, 47]
+    parent_action_ids: []
+    depth: 0
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 10, values: [23, 24, 25]}
+    input_hints: []
+  - action_id: 8
+    action_type: cdte
+    engine_id: 0
+    op: slice
+    engine_sub_id: 3
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 3, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x400040f1000}]
+    child_action_ids: [9, 10, 11, 12]
+    parent_action_ids: [1]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 2
+    setup_sem_id: -1
+    trigger_id: {id: 2, values: [5, 6]}
+    input_hints: []
+  - action_id: 22
+    action_type: cdte
+    engine_id: 4
+    op: slice
+    engine_sub_id: 3
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 6, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c0f1000}]
+    child_action_ids: [23, 24, 25, 26]
+    parent_action_ids: [15]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 2
+    setup_sem_id: -1
+    trigger_id: {id: 5, values: [12, 13]}
+    input_hints: []
+  - action_id: 36
+    action_type: cdte
+    engine_id: 8
+    op: slice
+    engine_sub_id: 3
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 9, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x400140f1000}]
+    child_action_ids: [37, 38, 39, 40]
+    parent_action_ids: [29]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 2
+    setup_sem_id: -1
+    trigger_id: {id: 8, values: [19, 20]}
+    input_hints: []
+  - action_id: 50
+    action_type: cdte
+    engine_id: 12
+    op: slice
+    engine_sub_id: 3
+    param0: [1280, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 0, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 768, 1, 1], stride_dims: [1280, 768, 1, 1], bpe: 2, addr: 0x50000000000}]
+    outputs:
+      - id: {id_key: 12, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c0f1000}]
+    child_action_ids: [51, 52, 53, 54]
+    parent_action_ids: [43]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 2
+    setup_sem_id: -1
+    trigger_id: {id: 11, values: [26, 27]}
+    input_hints: []
+  - action_id: 2
+    action_type: xpu
+    engine_id: 0
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40004001000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1000}]
+    outputs:
+      - id: {id_key: 5, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004321000}]
+    child_action_ids: [6, 9]
+    parent_action_ids: [0, 1]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 3
+    action_type: xpu
+    engine_id: 1
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40004001000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1200}]
+    outputs:
+      - id: {id_key: 5, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004321200}]
+    child_action_ids: [6, 10]
+    parent_action_ids: [0, 1]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 4
+    action_type: xpu
+    engine_id: 2
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40004079000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1000}]
+    outputs:
+      - id: {id_key: 5, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004351000}]
+    child_action_ids: [6, 11]
+    parent_action_ids: [0, 1]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 5
+    action_type: xpu
+    engine_id: 3
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40004079000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1200}]
+    outputs:
+      - id: {id_key: 5, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004351200}]
+    child_action_ids: [6, 12]
+    parent_action_ids: [0, 1]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 16
+    action_type: xpu
+    engine_id: 4
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c001000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1000}]
+    outputs:
+      - id: {id_key: 8, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c321000}]
+    child_action_ids: [20, 23]
+    parent_action_ids: [14, 15]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 17
+    action_type: xpu
+    engine_id: 5
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c001000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1200}]
+    outputs:
+      - id: {id_key: 8, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c321200}]
+    child_action_ids: [20, 24]
+    parent_action_ids: [14, 15]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 18
+    action_type: xpu
+    engine_id: 6
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c079000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1000}]
+    outputs:
+      - id: {id_key: 8, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c351000}]
+    child_action_ids: [20, 25]
+    parent_action_ids: [14, 15]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 19
+    action_type: xpu
+    engine_id: 7
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c079000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1200}]
+    outputs:
+      - id: {id_key: 8, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c351200}]
+    child_action_ids: [20, 26]
+    parent_action_ids: [14, 15]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 30
+    action_type: xpu
+    engine_id: 8
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40014001000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1000}]
+    outputs:
+      - id: {id_key: 11, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014321000}]
+    child_action_ids: [34, 37]
+    parent_action_ids: [28, 29]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 31
+    action_type: xpu
+    engine_id: 9
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40014001000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1200}]
+    outputs:
+      - id: {id_key: 11, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014321200}]
+    child_action_ids: [34, 38]
+    parent_action_ids: [28, 29]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 32
+    action_type: xpu
+    engine_id: 10
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40014079000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1000}]
+    outputs:
+      - id: {id_key: 11, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014351000}]
+    child_action_ids: [34, 39]
+    parent_action_ids: [28, 29]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 33
+    action_type: xpu
+    engine_id: 11
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40014079000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1200}]
+    outputs:
+      - id: {id_key: 11, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014351200}]
+    child_action_ids: [34, 40]
+    parent_action_ids: [28, 29]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 44
+    action_type: xpu
+    engine_id: 12
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c001000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1000}]
+    outputs:
+      - id: {id_key: 14, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c321000}]
+    child_action_ids: [48, 51]
+    parent_action_ids: [42, 43]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 45
+    action_type: xpu
+    engine_id: 13
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c001000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1200}]
+    outputs:
+      - id: {id_key: 14, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c321200}]
+    child_action_ids: [48, 52]
+    parent_action_ids: [42, 43]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 46
+    action_type: xpu
+    engine_id: 14
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c079000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1000}]
+    outputs:
+      - id: {id_key: 14, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c351000}]
+    child_action_ids: [48, 53]
+    parent_action_ids: [42, 43]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 47
+    action_type: xpu
+    engine_id: 15
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c079000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1200}]
+    outputs:
+      - id: {id_key: 14, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c351200}]
+    child_action_ids: [48, 54]
+    parent_action_ids: [42, 43]
+    depth: 1
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 0
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000000, 0x80000001]
+  - action_id: 6
+    action_type: cdte
+    engine_id: 0
+    op: deslice
+    engine_sub_id: 4
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 5, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004321000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: [13]
+    parent_action_ids: [2, 3, 4, 5]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 3
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
+  - action_id: 20
+    action_type: cdte
+    engine_id: 4
+    op: deslice
+    engine_sub_id: 4
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 8, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c321000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: [27]
+    parent_action_ids: [16, 17, 18, 19]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 3
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
+  - action_id: 34
+    action_type: cdte
+    engine_id: 8
+    op: deslice
+    engine_sub_id: 4
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 11, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014321000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: [41]
+    parent_action_ids: [30, 31, 32, 33]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 3
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
+  - action_id: 48
+    action_type: cdte
+    engine_id: 12
+    op: deslice
+    engine_sub_id: 4
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 14, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c321000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: [55]
+    parent_action_ids: [44, 45, 46, 47]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 3
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
+  - action_id: 9
+    action_type: xpu
+    engine_id: 0
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x400040f1000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1000}]
+    outputs:
+      - id: {id_key: 5, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004381000}]
+    child_action_ids: [13]
+    parent_action_ids: [8, 2]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 10
+    action_type: xpu
+    engine_id: 1
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x400040f1000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1200}]
+    outputs:
+      - id: {id_key: 5, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004381200}]
+    child_action_ids: [13]
+    parent_action_ids: [8, 3]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 11
+    action_type: xpu
+    engine_id: 2
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40004169000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1000}]
+    outputs:
+      - id: {id_key: 5, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x400043b1000}]
+    child_action_ids: [13]
+    parent_action_ids: [8, 4]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 12
+    action_type: xpu
+    engine_id: 3
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 3, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40004169000}]
+      - id: {id_key: 4, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400041e1200}]
+    outputs:
+      - id: {id_key: 5, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x400043b1200}]
+    child_action_ids: [13]
+    parent_action_ids: [8, 5]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 23
+    action_type: xpu
+    engine_id: 4
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c0f1000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1000}]
+    outputs:
+      - id: {id_key: 8, id_val: 1}
+        tensor: [{offsets: [512, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c381000}]
+    child_action_ids: [27]
+    parent_action_ids: [22, 16]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 24
+    action_type: xpu
+    engine_id: 5
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c0f1000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1200}]
+    outputs:
+      - id: {id_key: 8, id_val: 1}
+        tensor: [{offsets: [512, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c381200}]
+    child_action_ids: [27]
+    parent_action_ids: [22, 17]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 25
+    action_type: xpu
+    engine_id: 6
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c169000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1000}]
+    outputs:
+      - id: {id_key: 8, id_val: 1}
+        tensor: [{offsets: [512, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c3b1000}]
+    child_action_ids: [27]
+    parent_action_ids: [22, 18]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 26
+    action_type: xpu
+    engine_id: 7
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 6, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4000c169000}]
+      - id: {id_key: 7, id_val: 0}
+        tensor: [{offsets: [512, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4000c1e1200}]
+    outputs:
+      - id: {id_key: 8, id_val: 1}
+        tensor: [{offsets: [512, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c3b1200}]
+    child_action_ids: [27]
+    parent_action_ids: [22, 19]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 37
+    action_type: xpu
+    engine_id: 8
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x400140f1000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1000}]
+    outputs:
+      - id: {id_key: 11, id_val: 1}
+        tensor: [{offsets: [1024, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014381000}]
+    child_action_ids: [41]
+    parent_action_ids: [36, 30]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 38
+    action_type: xpu
+    engine_id: 9
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x400140f1000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1200}]
+    outputs:
+      - id: {id_key: 11, id_val: 1}
+        tensor: [{offsets: [1024, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014381200}]
+    child_action_ids: [41]
+    parent_action_ids: [36, 31]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 39
+    action_type: xpu
+    engine_id: 10
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40014169000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1000}]
+    outputs:
+      - id: {id_key: 11, id_val: 1}
+        tensor: [{offsets: [1024, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x400143b1000}]
+    child_action_ids: [41]
+    parent_action_ids: [36, 32]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 40
+    action_type: xpu
+    engine_id: 11
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 9, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x40014169000}]
+      - id: {id_key: 10, id_val: 0}
+        tensor: [{offsets: [1024, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x400141e1200}]
+    outputs:
+      - id: {id_key: 11, id_val: 1}
+        tensor: [{offsets: [1024, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x400143b1200}]
+    child_action_ids: [41]
+    parent_action_ids: [36, 33]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 51
+    action_type: xpu
+    engine_id: 12
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c0f1000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1000}]
+    outputs:
+      - id: {id_key: 14, id_val: 1}
+        tensor: [{offsets: [1536, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c381000}]
+    child_action_ids: [55]
+    parent_action_ids: [50, 44]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 52
+    action_type: xpu
+    engine_id: 13
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c0f1000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1200}]
+    outputs:
+      - id: {id_key: 14, id_val: 1}
+        tensor: [{offsets: [1536, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c381200}]
+    child_action_ids: [55]
+    parent_action_ids: [50, 45]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 53
+    action_type: xpu
+    engine_id: 14
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c169000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1000}]
+    outputs:
+      - id: {id_key: 14, id_val: 1}
+        tensor: [{offsets: [1536, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c3b1000}]
+    child_action_ids: [55]
+    parent_action_ids: [50, 46]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 54
+    action_type: xpu
+    engine_id: 15
+    code: gemm_fp16
+    data: [16384, 1280, 512, 512, 16777408, 1280, 8388704, 514]
+    inputs:
+      - id: {id_key: 12, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [1280, 384, 1, 1], stride_dims: [1280, 384, 1, 1], bpe: 2, addr: 0x4001c169000}]
+      - id: {id_key: 13, id_val: 0}
+        tensor: [{offsets: [1536, 0, 0, 0], dims: [512, 1280, 1, 1], stride_dims: [512, 1280, 1, 1], bpe: 2, addr: 0x4001c1e1200}]
+    outputs:
+      - id: {id_key: 14, id_val: 1}
+        tensor: [{offsets: [1536, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c3b1200}]
+    child_action_ids: [55]
+    parent_action_ids: [50, 47]
+    depth: 2
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 1
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: [0x80000002, 0x1]
+  - action_id: 13
+    action_type: cdte
+    engine_id: 0
+    op: deslice
+    engine_sub_id: 5
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 5, id_val: 1}
+        tensor: [{offsets: [0, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40004381000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: []
+    parent_action_ids: [6, 9, 10, 11, 12]
+    depth: 3
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 4
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
+  - action_id: 27
+    action_type: cdte
+    engine_id: 4
+    op: deslice
+    engine_sub_id: 5
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 8, id_val: 1}
+        tensor: [{offsets: [512, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4000c381000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: []
+    parent_action_ids: [20, 23, 24, 25, 26]
+    depth: 3
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 4
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
+  - action_id: 41
+    action_type: cdte
+    engine_id: 8
+    op: deslice
+    engine_sub_id: 5
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 11, id_val: 1}
+        tensor: [{offsets: [1024, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x40014381000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: []
+    parent_action_ids: [34, 37, 38, 39, 40]
+    depth: 3
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 4
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
+  - action_id: 55
+    action_type: cdte
+    engine_id: 12
+    op: deslice
+    engine_sub_id: 5
+    param0: [512, 384, 1, 1]
+    param1: [0, 0, 0, 0]
+    param2: [0, 0, 0, 0]
+    param3: [0, 0, 0, 0]
+    inputs:
+      - id: {id_key: 14, id_val: 1}
+        tensor: [{offsets: [1536, 384, 0, 0], dims: [512, 384, 1, 1], stride_dims: [512, 384, 1, 1], bpe: 2, addr: 0x4001c381000}]
+    outputs:
+      - id: {id_key: 2, id_val: 0}
+        tensor: [{offsets: [0, 0, 0, 0], dims: [2048, 768, 1, 1], stride_dims: [2048, 768, 1, 1], bpe: 2, addr: 0x500006e0000}]
+    child_action_ids: []
+    parent_action_ids: [48, 51, 52, 53, 54]
+    depth: 3
+    setup_parent_action_id: -1
+    setup_child_action_id: -1
+    exe_sem_id: 4
+    setup_sem_id: -1
+    trigger_id: {id: 0, values: []}
+    input_hints: []
