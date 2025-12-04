@@ -401,6 +401,10 @@ class DataflowAction():
     def get_optype(self) -> DataflowOpType:
         raise NotImplemented()
 
+    def get_trace_label(self) -> str:
+        # 默认使用动作类型名作为 trace 标签
+        return self.get_action_type().name.lower()
+
     def get_dtype(self) -> DType:
         raise NotImplemented()
 

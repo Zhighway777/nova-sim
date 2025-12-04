@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+import logging
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
@@ -85,6 +86,7 @@ class SimulationPipeline:
 
         shape = list(shape)
         case_dir = self._build_case_dir(dtype, shape, bench_version)
+        self._ensure_file_logging(case_dir)
         dataflow_config = {"bench_gemm_op_version": bench_version}
         if quant_type:
             dataflow_config["bench_gemm_quant_type"] = quant_type
@@ -146,3 +148,20 @@ class SimulationPipeline:
             trace_path=trace_path,
             output_dir=case_dir,
         )
+
+    def _ensure_file_logging(self, case_dir: Path) -> None:
+        """Attach a file handler under the case directory to capture INFO logs."""
+        log_path = case_dir / "nova-lite.log"
+        root = logging.getLogger()
+        # Avoid adding duplicate handlers for the same file
+        for handler in root.handlers:
+            if isinstance(handler, logging.FileHandler) and Path(handler.baseFilename) == log_path:
+                break
+        else:
+            log_path.parent.mkdir(parents=True, exist_ok=True)
+            handler = logging.FileHandler(log_path, encoding="utf-8")
+            handler.setLevel(logging.INFO)
+            handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
+            root.addHandler(handler)
+        if root.level > logging.INFO:
+            root.setLevel(logging.INFO)

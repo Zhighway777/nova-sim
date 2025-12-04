@@ -331,11 +331,12 @@ class ComputeCostService(BaseCostService):
         #                 category_list=["memory", "detail"],
         #             )
 
-    def process(self, action: DiagDataflowAction, context: BossaNovaContext, ref: float) -> Generator[float, None, None]:
+    def process(self, action: DiagDataflowAction, context: BossaNovaContext, ref: float, trace_label: str | None = None) -> Generator[float, None, None]:
         die_id = action.get_die_id()
         cid = action.get_cluster_id()
         engine_id = action.get_local_engine_id()
         action_type = action.get_action_type()
+        trace_label = trace_label or action_type.name
 
         cost_book = context.get_cost_book(action)
         stat_gen = action.compute(context)
@@ -369,7 +370,7 @@ class ComputeCostService(BaseCostService):
                     compute_latency = self.process_compute_stat(
                         stat, edc_freq_cfg)
                     track = context.get_cluster_tgen(die_id, cid).create_track(
-                        f"{action_type}:{engine_id}:compute", tid=engine_id)
+                        f"{trace_label}:{engine_id}:compute", tid=engine_id)
                     stat_name = stat.name if stat.name else f"compute"
                     track.duration(
                         ref + stat.relative_ts, stat.latency, stat_name, stat, category_list=["compute"]
@@ -388,7 +389,7 @@ class ComputeCostService(BaseCostService):
 
                     # calculate cache
                     # TODO: need review
-                    yield from self.process_memory_stat(stat, context, edc_freq_cfg, cache_gen, die_id, cid, engine_id, action_type.name, ref)
+                    yield from self.process_memory_stat(stat, context, edc_freq_cfg, cache_gen, die_id, cid, engine_id, trace_label, ref)
                     self.dump_addr(action, stat, ref)
 
                     # track = context.tgen._create_track(

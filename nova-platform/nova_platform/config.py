@@ -64,11 +64,19 @@ class FreqDomain(BaseEnum):
 
 
 @dataclass
+class TPUComputeConfig:
+    ARRAY_M: int = 64
+    ARRAY_N: int = 64
+    K_TILE: int = 128
+
+
+@dataclass
 class ComputeConfig:
     thread_2d_throughput: Dict[DType, float]
     thread_1d_throughput: Dict[DType, float]
     thread_sfu_throughput: int = field(default=None)
     compute_parallel_capability: int = 0
+    tpu: TPUComputeConfig = field(default=None)
 
 
 @dataclass
@@ -296,6 +304,7 @@ class TOPO(BaseEnum):
 class BossaNovaConfig:
     name: str
     arch_name: str
+    arch: str
     inst_num: InstNumConfig
     freq: FreqConfig
     compute: ComputeConfig

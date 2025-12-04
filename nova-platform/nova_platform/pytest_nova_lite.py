@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import shlex
 import sys
+import logging
 from pathlib import Path
 from typing import Iterable, List, Optional
 
@@ -76,6 +77,8 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 ## 从命令行中捕获各种参数
 def pytest_cmdline_main(config: pytest.Config) -> Optional[int]:
+    if not logging.getLogger().handlers:
+        logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(name)s:%(message)s")
     if not config.getoption("--run-nova-lite"):
         return None
 

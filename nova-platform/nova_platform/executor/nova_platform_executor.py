@@ -363,10 +363,11 @@ class BossaNovaExecutor():
         cid = action.get_cluster_id()
         engine_id = action.get_local_engine_id()
         action_type = action.get_action_type()
+        trace_label = getattr(action, "get_trace_label", lambda: action_type.name.lower())()
         action.ref = ref
         track = self.context.get_cluster_tgen(action.get_die_id(), cid).create_track(
-            f"{action_type}:{engine_id}", tid=engine_id)
-        yield from self.compute_svc.process(action, self.context, ref)
+            f"{trace_label}:{engine_id}", tid=engine_id)
+        yield from self.compute_svc.process(action, self.context, ref, trace_label=trace_label)
         # yield from self.power_svc.process(action, self.context, ref)
         self.compute_svc.post_process(self.context)
         if self.power_svc:

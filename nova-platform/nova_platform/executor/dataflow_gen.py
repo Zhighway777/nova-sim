@@ -23,7 +23,7 @@ from nova_platform.dataflow.action.xpu_allreduce_action import XPUAllReduceActio
 from nova_platform.dataflow.action.xpu_allgather_action import XPUAllGatherAction
 from nova_platform.dataflow.action.xpu_allgather_gemm_action import XPUAllGatherGemmAction
 from nova_platform.dataflow.action.nop_action import XPUNopAction
-from nova_platform.dataflow.action.tpu_gemm_action import TPUGemmAction
+from nova_platform.dataflow.action.tpu_gemm_action import TpuGemmAction
 from nova_platform.base_model import DType
 from nova_platform.benchmark.op_base import Operand
 
@@ -102,7 +102,7 @@ class  DataflowGenerator:
         raise NotImplementedError()
 
     def generate_dataflow(self):
-        self._generate()
+        self._generate()  # 调用子类的generate方法生成输入输出张量
         action_list = []
         sic_num = self.config.inst_num.NUM_OF_CLUSTER * self.config.inst_num.NUM_OF_DIE
         sip_num = self.config.inst_num.NUM_OF_CORE_PER_CLUSTER
@@ -201,8 +201,52 @@ class GemmLocalDataflowGenerator(GemmSharedDataflowGenerator):
 class TPUGemmDataflowGenerator(GemmSharedDataflowGenerator):
     def __init__(self, config: BossaNovaConfig, dataflow_config: Dict[str, Any], **kwargs) -> None:
         super().__init__(config, dataflow_config, **kwargs)
-        self.action_cls = TPUGemmAction
+        self.action_cls = TpuGemmAction
 
+    def generate_dataflow(self):
+        # TPU: 没有 sic/sip 概念，按阵列数生成动作（默认单阵列）
+        self._generate()
+        action_list = []
+        array_num = getattr(getattr(self.config.compute, "tpu", None), "ARRAY_NUM", 1) or 1
+        xpu_code = f"{self.op_type}_{self.dtype}"
+        action_id = 0
+        for array_idx in range(array_num):
+            action_list.append(
+                self.action_cls(
+                    code=xpu_code,
+                    config=self.config,
+                    action_id=action_id,
+                    action_type=DataflowActionType.XPU,
+                    engine_id=array_idx,
+                    engine_sub_id=0,
+                    inputs=self.inputs,
+                    outputs=self.outputs,
+                    dataflow_config=self.dataflow_config,
+                    child_action_ids=[],
+                    parent_action_ids=[],
+                    depth=0,
+                    setup_parent_action_id=-1,
+                    setup_child_action_id=-1,
+                    exe_sem_id=0,
+                    setup_sem_id=-1,
+                    trigger_id=DiagTriggerID(0, []),
+                    input_hints=[],
+                    die_id=0,
+                    tile_info=self.tile_info,
+                    data=[array_idx],
+                    **self.kwargs,
+                )
+            )
+            action_id += 1
+
+        return DiagDataflow(
+            dataflow_name=f"{self.op_type}_{self.dtype}",
+            dataflow_id=0,
+            odte_total_bytes=0,
+            cdte_total_bytes=0,
+            sdte_total_bytes=0,
+            action_list=action_list,
+        )
 
 class ElementwiseDataflowGenerator(DataflowGenerator):
     _BINARY_OPS = {"add", "mul"}
