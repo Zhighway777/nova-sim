@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nova-sim</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@11.9.0/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked@11.0.0/marked.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f1f5f9;
+            --text-color: #334155;
+            --border-color: #e2e8f0;
+            --hover-color: #f8fafc;
+            --code-bg: #f8fafc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #ffffff;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 320px;
+            background-color: var(--secondary-color);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            overflow-y: auto;
+            position: fixed;
+            height: 100vh;
+        }
+        
+        .content {
+            flex: 1;
+            margin-left: 320px;
+            padding: 40px 60px;
+            max-width: calc(100% - 320px);
+        }
+        
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .repo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: white;
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .repo-link:hover {
+            background: var(--hover-color);
+            border-color: var(--primary-color);
+        }
+        
+        .repo-info {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .repo-info h4 {
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .info-row {
+            font-size: 11px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 4px;
+        }
+        
+        .info-row strong {
+            font-weight: 600;
+            min-width: 80px;
+            display: inline-block;
+        }
+        
+        .nav-section {
+            margin-bottom: 20px;
+        }
+        
+        .nav-section h3 {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+        }
+        
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            color: var(--text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            margin-bottom: 2px;
+            cursor: pointer;
+        }
+        
+        .nav-item:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .nav-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .nav-subsection {
+            margin-left: 15px;
+            margin-top: 5px;
+        }
+        
+        .nav-subsection .nav-item {
+            font-size: 13px;
+            padding: 8px 12px;
+        }
+        
+        .nav-subsection .nav-subsection {
+            margin-left: 20px;
+        }
+        
+        .nav-subsection .nav-subsection .nav-item {
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+        
+        .markdown-content {
+            max-width: 100%;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .markdown-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .markdown-content h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .markdown-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #475569;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .markdown-content h4 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #475569;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .markdown-content p {
+            margin-bottom: 1rem;
+            color: #475569;
+        }
+        
+        .markdown-content ul, .markdown-content ol {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+        }
+        
+        .markdown-content li {
+            margin-bottom: 0.5rem;
+            color: #475569;
+        }
+        
+        .markdown-content code {
+            background-color: var(--code-bg);
+            padding: 0.2em 0.4em;
+            border-radius: 0.25rem;
+            font-family: 'Fira Code', 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #e11d48;
+        }
+        
+        .markdown-content pre {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+        
+        .markdown-content pre code {
+            background-color: transparent;
+            padding: 0;
+            color: var(--text-color);
+            font-size: 0.875rem;
+        }
+        
+        .markdown-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #64748b;
+            background: var(--hover-color);
+            padding: 1rem 1rem 1rem 1.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .markdown-content th, .markdown-content td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        
+        .markdown-content th {
+            background-color: var(--secondary-color);
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .markdown-content tr:hover {
+            background-color: var(--hover-color);
+        }
+        
+        .markdown-content a {
+            color: var(--primary-color);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        
+        .markdown-content a:hover {
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .markdown-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .mermaid {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            overflow-x: auto;
+        }
+        
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            color: #64748b;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--secondary-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .error {
+            padding: 2rem;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 0.5rem;
+            color: #991b1b;
+            margin: 2rem 0;
+        }
+        
+        .error h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+            
+            .content {
+                margin-left: 0;
+                padding: 20px;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <a href="https://github.com/Zhighway777/nova-sim" class="repo-link" target="_blank">🔗 View Repository</a>
+            <div class="logo">📚 nova-sim</div>
+            
+            <div class="repo-info" id="repo-info" style="display: block;">
+                <h4>Generation Info</h4>
+                <div id="info-content"><div class="info-row"><strong>Model:</strong> xiaomi/mimo-v2-flash:free</div>
+                <div class="info-row"><strong>Generated:</strong> 2025-12-24</div>
+                <div class="info-row"><strong>Components:</strong> 400</div>
+                <div class="info-row"><strong>Max Depth:</strong> 2</div></div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-item active" data-file="overview.md">
+                    📄 Overview
+                </div>
+            </div>
+            
+            <div id="navigation"></div>
+        </nav>
+        
+        <main class="content">
+            <div id="loading" class="loading">
+                <div class="loading-spinner"></div>
+                <p>Loading documentation...</p>
+            </div>
+            
+            <div id="content" class="markdown-content" style="display: none;"></div>
+        </main>
+    </div>
+    
+    <script>
+        // Embedded configuration
+        const CONFIG = {};
+        const MODULE_TREE = {
+  "cache_model": {
+    "path": "cache_model",
+    "components": [
+      "cache_model.arch.AbstractGCU",
+      "cache_model.entity.model.Request",
+      "cache_model.entity.model.L1C_Config",
+      "cache_model.entity.model.LLC_Config",
+      "cache_model.entity.model.No_MSHR",
+      "cache_model.entity.model.Access",
+      "cache_model.entity.model.Memory",
+      "cache_model.entity.model.ModelContext",
+      "cache_model.entity.model.L3_Config",
+      "cache_model.entity.model.HardwareConfig",
+      "cache_model.entity.report.DistanceCount",
+      "cache_model.memory.__init__.AbstractMemoryManager",
+      "cache_model.memory.memory_manger._LRUSet",
+      "cache_model.memory.memory_manger._BaseCacheManager",
+      "cache_model.memory.memory_manger.LLCManager",
+      "cache_model.memory.memory_manger.L1CManager",
+      "cache_model.memory.memory_manger.L3Manager"
+    ],
+    "children": {}
+  },
+  "nova_lite": {
+    "path": "nova-platform/nova_lite",
+    "components": [
+      "nova-platform.nova_lite.pipeline.SimulationPipeline",
+      "nova-platform.nova_lite.pipeline.SimulationResult"
+    ],
+    "children": {}
+  },
+  "base_models": {
+    "path": "nova-platform/nova_platform/base_model.py",
+    "components": [
+      "nova-platform.nova_platform.base_model.DType",
+      "nova-platform.nova_platform.base_model.DataflowOpType",
+      "nova-platform.nova_platform.base_model.AddrDomain",
+      "nova-platform.nova_platform.base_model.PostStat",
+      "nova-platform.nova_platform.base_model.BaseESLSwitch",
+      "nova-platform.nova_platform.base_model.DataflowActionMemoryStat",
+      "nova-platform.nova_platform.base_model.DataflowActionMemoryAccess",
+      "nova-platform.nova_platform.base_model.DataflowActionType",
+      "nova-platform.nova_platform.base_model.BaseActionStat",
+      "nova-platform.nova_platform.base_model.BaseFrame",
+      "nova-platform.nova_platform.base_model.DataflowActionComputeStat",
+      "nova-platform.nova_platform.base_model.TensorFloat",
+      "nova-platform.nova_platform.base_model.EDCStat"
+    ],
+    "children": {}
+  },
+  "benchmark": {
+    "path": "nova-platform/nova_platform/benchmark",
+    "components": [
+      "nova-platform.nova_platform.benchmark.batch_gemm.XpuBatchGemmBase",
+      "nova-platform.nova_platform.benchmark.batch_gemm.BatchGemmBase",
+      "nova-platform.nova_platform.benchmark.batch_gemm.BatchGemmGridShape",
+      "nova-platform.nova_platform.benchmark.batch_gemm.MemArchType",
+      "nova-platform.nova_platform.benchmark.batch_gemm.QuantType",
+      "nova-platform.nova_platform.benchmark.batch_gemm_gpu.BatchGemmGPU",
+      "nova-platform.nova_platform.benchmark.batch_gemm_local.BatchGemmLocal",
+      "nova-platform.nova_platform.benchmark.batch_gemm_shared.BatchGemmShared",
+      "nova-platform.nova_platform.benchmark.batch_gemm_tpu.BatchGemmTpu",
+      "nova-platform.nova_platform.benchmark.eccl.SimpleProtoPrimitives",
+      "nova-platform.nova_platform.benchmark.eccl.EcclPrimitives",
+      "nova-platform.nova_platform.benchmark.op_base.Workload",
+      "nova-platform.nova_platform.benchmark.op_base.OpBase",
+      "nova-platform.nova_platform.benchmark.op_base.GridShape",
+      "nova-platform.nova_platform.benchmark.op_base.Operand",
+      "nova-platform.nova_platform.benchmark.op_trace_obsolete.Tensor",
+      "nova-platform.nova_platform.benchmark.op_trace_obsolete.DataType",
+      "nova-platform.nova_platform.benchmark.op_trace_obsolete.Scalar",
+      "nova-platform.nova_platform.benchmark.op_trace_obsolete.Struct",
+      "nova-platform.nova_platform.benchmark.op_trace_obsolete.OpTraceRecord"
+    ],
+    "children": {}
+  },
+  "config": {
+    "path": "nova-platform/nova_platform/config.py",
+    "components": [
+      "nova-platform.nova_platform.config.InstNumConfig",
+      "nova-platform.nova_platform.config.MemoryL1Config",
+      "nova-platform.nova_platform.config.L1C_Config",
+      "nova-platform.nova_platform.config.LLC_Config",
+      "nova-platform.nova_platform.config.MemoryL0Config",
+      "nova-platform.nova_platform.config.MemoryL3Config",
+      "nova-platform.nova_platform.config.PowerSIPLibConfig",
+      "nova-platform.nova_platform.config.BossaNovaConfig",
+      "nova-platform.nova_platform.config.ComputeConfig",
+      "nova-platform.nova_platform.config.DTEConfig",
+      "nova-platform.nova_platform.config.PowerSOCLibConfig",
+      "nova-platform.nova_platform.config.PowerMemLibConfig",
+      "nova-platform.nova_platform.config.FreqConfig",
+      "nova-platform.nova_platform.config.TPUComputeConfig",
+      "nova-platform.nova_platform.config.MemoryConfig",
+      "nova-platform.nova_platform.config.FreqDomain",
+      "nova-platform.nova_platform.config.MemoryL2Config",
+      "nova-platform.nova_platform.config.BWConfig",
+      "nova-platform.nova_platform.config.MemoryCommonConfig",
+      "nova-platform.nova_platform.config.AbstractCacheConfig",
+      "nova-platform.nova_platform.config.PowerLibConfig",
+      "nova-platform.nova_platform.config.BWFile",
+      "nova-platform.nova_platform.config.PowerD2DLibConfig",
+      "nova-platform.nova_platform.config.PowerESLLibConfig",
+      "nova-platform.nova_platform.config.TOPO",
+      "nova-platform.nova_platform.config.PowerL1LibConfig",
+      "nova-platform.nova_platform.config.BWEle",
+      "nova-platform.nova_platform.config.BossaNovaBaseConfig"
+    ],
+    "children": {}
+  },
+  "cost_service": {
+    "path": "nova-platform/nova_platform/cost_service",
+    "components": [
+      "nova-platform.nova_platform.cost_service.cache.arch.__init__.SimpleStrategy",
+      "nova-platform.nova_platform.cost_service.cache.arch.__init__.RequestType",
+      "nova-platform.nova_platform.cost_service.cache.arch.__init__.SimpleRequest",
+      "nova-platform.nova_platform.cost_service.cache.arch.__init__.SimpleAccess",
+      "nova-platform.nova_platform.cost_service.cache.arch.eltanin.GCU_Eltanin",
+      "nova-platform.nova_platform.cost_service.cache.arch.libra.GCU_Libra",
+      "nova-platform.nova_platform.cost_service.cache.base_cache_model.CacheStat",
+      "nova-platform.nova_platform.cost_service.cache.base_cache_model.BaseCacheCostService",
+      "nova-platform.nova_platform.cost_service.cache.cache_cost_service.CacheCostService",
+      "nova-platform.nova_platform.cost_service.cache.parallel_cache_cost_service.ParallelCacheCostService",
+      "nova-platform.nova_platform.cost_service.cache.parallel_cache_cost_service.ParallelCacheImpl",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BossaNovaContext",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.CostBook",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.DataflowAction",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BaseCostService",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BWCost",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.EDCFrame",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BaseCoreStat",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BWFrame",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BWResourceContext",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BWResource",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.BWMode",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.Timeline",
+      "nova-platform.nova_platform.cost_service.compute.base_compute_model.PowerContext",
+      "nova-platform.nova_platform.cost_service.compute.compute_cost_service.EmptyCacheSvc",
+      "nova-platform.nova_platform.cost_service.compute.compute_cost_service.ComputeCostService",
+      "nova-platform.nova_platform.cost_service.compute.compute_cost_service.EngineStat",
+      "nova-platform.nova_platform.cost_service.compute.data_transport_service.DataTransportService",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerL1Domain",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.ActiveFrame",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerField",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerFrame",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerStat",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerSOCDomain",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerActiveFrame",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.BasePowerDomain",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerL3Frame",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerMemDomain",
+      "nova-platform.nova_platform.cost_service.power.base_power_model.PowerSIPDomain",
+      "nova-platform.nova_platform.cost_service.power.power_cost_service.PowerCostService"
+    ],
+    "children": {}
+  },
+  "data_visual": {
+    "path": "nova-platform/nova_platform/data_visual",
+    "components": [
+      "nova-platform.nova_platform.data_visual.__init__.AbstractPostProcessor",
+      "nova-platform.nova_platform.data_visual.post_processor.FusionPostProcessor",
+      "nova-platform.nova_platform.data_visual.post_processor.PostProcessor",
+      "nova-platform.nova_platform.data_visual.trace_post_processor.BossaNovaTraceProcessor"
+    ],
+    "children": {}
+  },
+  "dataflow_actions": {
+    "path": "nova-platform/nova_platform/dataflow/action",
+    "components": [
+      "nova-platform.nova_platform.dataflow.action.diag_action.DiagTensor",
+      "nova-platform.nova_platform.dataflow.action.diag_action.DiagTensorId",
+      "nova-platform.nova_platform.dataflow.action.diag_action.DiagTriggerID",
+      "nova-platform.nova_platform.dataflow.action.diag_action.DiagTensorContainer",
+      "nova-platform.nova_platform.dataflow.action.diag_action.TileInfo",
+      "nova-platform.nova_platform.dataflow.action.diag_action.DiagDataflow",
+      "nova-platform.nova_platform.dataflow.action.diag_action.DiagDataflowAction",
+      "nova-platform.nova_platform.dataflow.action.diag_action.BufCnt",
+      "nova-platform.nova_platform.dataflow.action.dte_action.BaseDTEStat",
+      "nova-platform.nova_platform.dataflow.action.dte_action.CDTEDesliceAction",
+      "nova-platform.nova_platform.dataflow.action.dte_action.CDTESliceAction",
+      "nova-platform.nova_platform.dataflow.action.dte_action.DTEAction",
+      "nova-platform.nova_platform.dataflow.action.dte_action.CDTEReshapeAction",
+      "nova-platform.nova_platform.dataflow.action.nop_action.XPUNopAction",
+      "nova-platform.nova_platform.dataflow.action.tpu_gemm_action.TpuGemmAction",
+      "nova-platform.nova_platform.dataflow.action.tpu_gemm_action.TpuCoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_action.XPUAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_activation_action.XPUSiluAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_activation_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_activation_action.XPUGeluAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_activation_action.XPUSigmoidAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_activation_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_activation_action.XPUActivationAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_activation_action.XPUReluAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_allgather_action.XPUAllGatherAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_allgather_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_allgather_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_allgather_gemm_action.XPUAllGatherGemmAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_allgather_gemm_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_allgather_gemm_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_allreduce_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_allreduce_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_allreduce_action.XPUAllReduceAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_elementwise_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_elementwise_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_elementwise_action.XPUElementWiseAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_elementwise_action.XPUAddAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_elementwise_action.XPUMulAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_gather_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_gather_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_gather_action._Uniform",
+      "nova-platform.nova_platform.dataflow.action.xpu_gather_action.XPUGatherAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_gather_action._InvGauss",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action.XPUGemmAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action_2.XPUGemmAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action_2.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action_2.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action_obsoleted.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action_obsoleted.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_gemm_action_obsoleted.XPUGemmAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_layernorm_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_layernorm_action.XPULayernormAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_layernorm_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_local_gemm_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_local_gemm_action.XPUSharedGemmAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_local_gemm_action.XPUBaseGemmAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_local_gemm_action.XPULocalGemmAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_local_gemm_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_scatter_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_scatter_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_scatter_action.XPUScatterAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_sdpa_action.XPUSdpaAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_sdpa_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_sdpa_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_softmax_action.XPUSoftmaxAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_softmax_action.CoreCost",
+      "nova-platform.nova_platform.dataflow.action.xpu_softmax_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_softmax_backward_action.InstructionInfo",
+      "nova-platform.nova_platform.dataflow.action.xpu_softmax_backward_action.XPUSoftmaxBackwardAction",
+      "nova-platform.nova_platform.dataflow.action.xpu_softmax_backward_action.CoreCost"
+    ],
+    "children": {}
+  },
+  "dataflow_core": {
+    "path": "nova-platform/nova_platform/dataflow",
+    "components": [
+      "nova-platform.nova_platform.dataflow.dataflow.Dataflow"
+    ],
+    "children": {}
+  },
+  "executor": {
+    "path": "nova-platform/nova_platform/executor",
+    "components": [
+      "nova-platform.nova_platform.executor.dataflow_gen.LayerNormDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.SoftmaxDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.GatherDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.TPUGemmDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.TransposeDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.ScatterDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.GPUBackend",
+      "nova-platform.nova_platform.executor.dataflow_gen.GemmLocalDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.ElementwiseDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.SdpaDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.XPUBackend",
+      "nova-platform.nova_platform.executor.dataflow_gen.Backend",
+      "nova-platform.nova_platform.executor.dataflow_gen.AllGatherDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.MemoryManager",
+      "nova-platform.nova_platform.executor.dataflow_gen.GemmSharedDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.DataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.TPUBackend",
+      "nova-platform.nova_platform.executor.dataflow_gen.AllGatherGemmDataflowGenerator",
+      "nova-platform.nova_platform.executor.dataflow_gen.AllReduceDataflowGenerator",
+      "nova-platform.nova_platform.executor.nova_platform_barrier.BARRIER",
+      "nova-platform.nova_platform.executor.nova_platform_barrier.BarrierManager",
+      "nova-platform.nova_platform.executor.nova_platform_event.BossaNovaEvent",
+      "nova-platform.nova_platform.executor.nova_platform_event.EventManager",
+      "nova-platform.nova_platform.executor.nova_platform_executor.EmptyPowerSvc",
+      "nova-platform.nova_platform.executor.nova_platform_executor.BossaNovaExecutor",
+      "nova-platform.nova_platform.executor.nova_platform_executor._DummyTqdm",
+      "nova-platform.nova_platform.executor.nova_platform_switch.ESLSwitchManager",
+      "nova-platform.nova_platform.executor.nova_platform_switch.DefaultESLSwitch",
+      "nova-platform.nova_platform.executor.nova_platform_switch.SupernodeESLSwitch",
+      "nova-platform.nova_platform.executor.nova_platform_switch.FullmeshESLSwitch",
+      "nova-platform.nova_platform.executor.nova_platform_switch.StandaloneSwitch"
+    ],
+    "children": {}
+  },
+  "perfetto_protobuf": {
+    "path": "nova-platform/nova_platform/perfetto_protobuf",
+    "components": [
+      "nova-platform.nova_platform.perfetto_protobuf._core._BaseTraceGenerator",
+      "nova-platform.nova_platform.perfetto_protobuf._profile.count",
+      "nova-platform.nova_platform.perfetto_protobuf._profile.track",
+      "nova-platform.nova_platform.perfetto_protobuf._profile.X",
+      "nova-platform.nova_platform.perfetto_protobuf._profile._trace",
+      "nova-platform.nova_platform.perfetto_protobuf._tgen.CounterTrack",
+      "nova-platform.nova_platform.perfetto_protobuf._tgen.BaseTrack",
+      "nova-platform.nova_platform.perfetto_protobuf._tgen.TraceGenerator",
+      "nova-platform.nova_platform.perfetto_protobuf._tgen.TGExit",
+      "nova-platform.nova_platform.perfetto_protobuf._tgen.GroupTrack",
+      "nova-platform.nova_platform.perfetto_protobuf._tgen.NormalTrack",
+      "nova-platform.nova_platform.perfetto_protobuf._tgen.Group"
+    ],
+    "children": {}
+  },
+  "simulator": {
+    "path": "nova-platform/nova_platform/simulator",
+    "components": [
+      "nova-platform.nova_platform.simulator.case.CaseInfo",
+      "nova-platform.nova_platform.simulator.case.FusionCaseInfo"
+    ],
+    "children": {}
+  },
+  "utils": {
+    "path": "nova-platform/nova_platform/utils",
+    "components": [
+      "nova-platform.nova_platform.utils.base_utils.SingletonMeta",
+      "nova-platform.nova_platform.utils.base_utils.hash_list",
+      "nova-platform.nova_platform.utils.base_utils.BaseDataclass",
+      "nova-platform.nova_platform.utils.config_utils.ConfigLoader",
+      "nova-platform.nova_platform.utils.config_utils.Deserializable",
+      "nova-platform.nova_platform.utils.config_utils.BaseEnum",
+      "nova-platform.nova_platform.utils.fusion_utils.TensorInfo",
+      "nova-platform.nova_platform.utils.fusion_utils.ScalarInfo",
+      "nova-platform.nova_platform.utils.fusion_utils.MemoryAllocator",
+      "nova-platform.nova_platform.utils.fusion_utils.OperationInfo",
+      "nova-platform.nova_platform.utils.gcu_utils.GCUData"
+    ],
+    "children": {
+      "base_utils": {
+        "components": [
+          "nova-platform.nova_platform.utils.base_utils.SingletonMeta",
+          "nova-platform.nova_platform.utils.base_utils.hash_list",
+          "nova-platform.nova_platform.utils.base_utils.BaseDataclass"
+        ],
+        "children": {}
+      },
+      "config_utils": {
+        "components": [
+          "nova-platform.nova_platform.utils.config_utils.ConfigLoader",
+          "nova-platform.nova_platform.utils.config_utils.Deserializable",
+          "nova-platform.nova_platform.utils.config_utils.BaseEnum"
+        ],
+        "children": {}
+      },
+      "fusion_utils": {
+        "components": [
+          "nova-platform.nova_platform.utils.fusion_utils.TensorInfo",
+          "nova-platform.nova_platform.utils.fusion_utils.ScalarInfo",
+          "nova-platform.nova_platform.utils.fusion_utils.MemoryAllocator",
+          "nova-platform.nova_platform.utils.fusion_utils.OperationInfo"
+        ],
+        "children": {}
+      },
+      "gcu_utils": {
+        "components": [
+          "nova-platform.nova_platform.utils.gcu_utils.GCUData"
+        ],
+        "children": {}
+      }
+    }
+  },
+  "optrace_benchmark": {
+    "path": "optrace_benchmark.py",
+    "components": [
+      "optrace_benchmark._ScalarOperand",
+      "optrace_benchmark.optrace",
+      "optrace_benchmark._DataType",
+      "optrace_benchmark._ValueType",
+      "optrace_benchmark._Result",
+      "optrace_benchmark._Module",
+      "optrace_benchmark.instruct",
+      "optrace_benchmark._Operand"
+    ],
+    "children": {}
+  },
+  "perfetto_trace_processor": {
+    "path": "perfetto/trace_processor.py",
+    "components": [
+      "perfetto.trace_processor.TraceProcessor",
+      "perfetto.trace_processor.TraceProcessorConfig"
+    ],
+    "children": {}
+  }
+};
+        const METADATA = {
+  "generation_info": {
+    "timestamp": "2025-12-24T22:33:40.946815",
+    "main_model": "xiaomi/mimo-v2-flash:free",
+    "generator_version": "1.0.0",
+    "repo_path": "/home/zhw/nova-sim",
+    "commit_id": null
+  },
+  "statistics": {
+    "total_components": 400,
+    "leaf_nodes": 263,
+    "max_depth": 2
+  },
+  "files_generated": [
+    "overview.md",
+    "module_tree.json",
+    "first_module_tree.json",
+    "compute_cost_service.md",
+    "config_utils.md",
+    "xpu_gemm_action.md",
+    "diag_action.md",
+    "fusion_utils.md",
+    "executor.md",
+    "dte_action.md",
+    "config.md",
+    "data_visual.md",
+    "perfetto_protobuf.md",
+    "batch_gemm_framework.md",
+    "nova_lite.md",
+    "xpu_activation_action.md",
+    "optrace_benchmark.md",
+    "abstract_post_processor.md",
+    "cost_service.md",
+    "xpu_collective_actions.md",
+    "cache_cost_service.md",
+    "utils.md",
+    "post_processor.md",
+    "dataflow_actions.md",
+    "base_models.md",
+    "cache_model.md",
+    "benchmark.md",
+    "dataflow_core.md",
+    "dataflow_gen.md",
+    "simulator.md"
+  ]
+};
+        const DOCS_BASE_PATH = '';
+        
+        // Initialize marked with options
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            mangle: false
+        });
+        
+        // Initialize mermaid
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: 'default',
+            themeVariables: {
+                primaryColor: '#2563eb',
+                primaryTextColor: '#334155',
+                primaryBorderColor: '#e2e8f0',
+                lineColor: '#64748b',
+                secondaryColor: '#f1f5f9',
+                tertiaryColor: '#f8fafc'
+            },
+            flowchart: { htmlLabels: true, curve: 'basis' },
+            sequence: { mirrorActors: true, useMaxWidth: true }
+        });
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (MODULE_TREE) {
+                buildNavigation();
+            }
+            
+            // Load overview by default
+            loadDocument('overview.md');
+        });
+        
+        function buildNavigation() {
+            const nav = document.getElementById('navigation');
+            let html = '';
+            
+            for (const [key, data] of Object.entries(MODULE_TREE)) {
+                html += buildNavItem(key, data, 0);
+            }
+            
+            nav.innerHTML = html;
+            
+            // Add click handlers
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const file = this.getAttribute('data-file');
+                    if (file) {
+                        loadDocument(file);
+                        
+                        // Update active state
+                        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        function buildNavItem(key, data, depth) {
+            const indentClass = depth > 0 ? 'nav-subsection' : 'nav-section';
+            const fileName = `${key}.md`;
+            
+            let html = `<div class="${indentClass}">`;
+            
+            if (data.components && data.components.length > 0) {
+                html += `<div class="nav-item" data-file="${fileName}">
+                    ${formatNavTitle(key)}
+                </div>`;
+            } else if (depth === 0) {
+                html += `<h3>${formatNavTitle(key)}</h3>`;
+            } else {
+                html += `<div class="nav-item" data-file="${fileName}">
+                    ${formatNavTitle(key)}
+                </div>`;
+            }
+            
+            if (data.children) {
+                for (const [childKey, childData] of Object.entries(data.children)) {
+                    html += buildNavItem(childKey, childData, depth + 1);
+                }
+            }
+            
+            html += '</div>';
+            return html;
+        }
+        
+        function formatNavTitle(key) {
+            return key
+                .replace(/_/g, ' ')
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+        }
+        
+        async function loadDocument(filename) {
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('content');
+            
+            loading.style.display = 'flex';
+            content.style.display = 'none';
+            
+            try {
+                const docPath = DOCS_BASE_PATH ? `${DOCS_BASE_PATH}/${filename}` : filename;
+                const response = await fetch(docPath);
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${filename}`);
+                }
+                
+                const markdown = await response.text();
+                const html = await renderMarkdown(markdown);
+                
+                content.innerHTML = html;
+                loading.style.display = 'none';
+                content.style.display = 'block';
+                
+                // Render mermaid diagrams
+                await renderMermaidDiagrams();
+                
+                // Add click handlers for internal markdown links
+                setupMarkdownLinks();
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+                
+            } catch (error) {
+                console.error('Error loading document:', error);
+                showError(`Failed to load document: ${filename}`);
+            }
+        }
+        
+        function setupMarkdownLinks() {
+            // Use event delegation to intercept all link clicks in markdown content
+            const content = document.getElementById('content');
+            
+            // Remove any existing listener to avoid duplicates
+            const oldListener = content._markdownLinkListener;
+            if (oldListener) {
+                content.removeEventListener('click', oldListener);
+            }
+            
+            // Create new listener
+            const listener = function(e) {
+                // Find the closest anchor tag
+                const link = e.target.closest('a');
+                if (!link) return;
+                
+                const href = link.getAttribute('href');
+                if (!href) return;
+                
+                // Check if it's a markdown file link (ends with .md or .MD)
+                // Also handle cases with anchors like "file.md#section"
+                const mdMatch = href.match(/([^\/]*\.md(?:#.*)?$)/i);
+                if (mdMatch) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Extract filename without anchor
+                    const fullMatch = mdMatch[1];
+                    const filename = fullMatch.split('#')[0];
+                    
+                    // Load the document
+                    loadDocument(filename);
+                    
+                    // Update active state in sidebar
+                    document.querySelectorAll('.nav-item').forEach(item => {
+                        if (item.getAttribute('data-file') === filename) {
+                            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            };
+            
+            // Store listener reference for cleanup
+            content._markdownLinkListener = listener;
+            
+            // Attach listener
+            content.addEventListener('click', listener);
+        }
+        
+        async function renderMarkdown(markdown) {
+            // Convert markdown to HTML using marked
+            let html = marked.parse(markdown);
+            
+            // Process mermaid code blocks
+            html = html.replace(
+                /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+                (match, code) => {
+                    const decodedCode = code
+                        .replace(/&lt;/g, '<')
+                        .replace(/&gt;/g, '>')
+                        .replace(/&amp;/g, '&')
+                        .replace(/&quot;/g, '"')
+                        .replace(/&#39;/g, "'");
+                    return `<div class="mermaid">${decodedCode}</div>`;
+                }
+            );
+            
+            return html;
+        }
+        
+        async function renderMermaidDiagrams() {
+            const mermaidElements = document.querySelectorAll('.mermaid');
+            
+            for (let i = 0; i < mermaidElements.length; i++) {
+                const element = mermaidElements[i];
+                const id = `mermaid-${Date.now()}-${i}`;
+                element.id = id;
+                
+                try {
+                    const { svg } = await mermaid.render(id + '-svg', element.textContent);
+                    element.innerHTML = svg;
+                } catch (error) {
+                    console.error('Mermaid rendering error:', error);
+                    element.innerHTML = `<pre>Error rendering diagram:\n${element.textContent}</pre>`;
+                }
+            }
+        }
+        
+        function showError(message) {
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('content');
+            
+            loading.style.display = 'none';
+            content.style.display = 'block';
+            content.innerHTML = `
+                <div class="error">
+                    <h3>⚠️ Error</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
+

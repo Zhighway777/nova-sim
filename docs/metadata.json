@@ -1,0 +1,46 @@
+{
+    "generation_info": {
+        "timestamp": "2025-12-24T22:33:40.946815",
+        "main_model": "xiaomi/mimo-v2-flash:free",
+        "generator_version": "1.0.0",
+        "repo_path": "/home/zhw/nova-sim",
+        "commit_id": null
+    },
+    "statistics": {
+        "total_components": 400,
+        "leaf_nodes": 263,
+        "max_depth": 2
+    },
+    "files_generated": [
+        "overview.md",
+        "module_tree.json",
+        "first_module_tree.json",
+        "compute_cost_service.md",
+        "config_utils.md",
+        "xpu_gemm_action.md",
+        "diag_action.md",
+        "fusion_utils.md",
+        "executor.md",
+        "dte_action.md",
+        "config.md",
+        "data_visual.md",
+        "perfetto_protobuf.md",
+        "batch_gemm_framework.md",
+        "nova_lite.md",
+        "xpu_activation_action.md",
+        "optrace_benchmark.md",
+        "abstract_post_processor.md",
+        "cost_service.md",
+        "xpu_collective_actions.md",
+        "cache_cost_service.md",
+        "utils.md",
+        "post_processor.md",
+        "dataflow_actions.md",
+        "base_models.md",
+        "cache_model.md",
+        "benchmark.md",
+        "dataflow_core.md",
+        "dataflow_gen.md",
+        "simulator.md"
+    ]
+}
