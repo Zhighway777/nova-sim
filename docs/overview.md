@@ -15,14 +15,14 @@ The repository follows a layered, modular architecture that transforms high-leve
 ```mermaid
 flowchart TD
     subgraph "Input Layer"
-        User[User / Application]
-        Config[Hardware Config<br/>(YAML)]
-        Workload[Workload Spec<br/>(Shape, Type, Topology)]
+        User["User / Application"]
+        Config["Hardware Config<br/>(YAML)"]
+        Workload["Workload Spec<br/>(Shape, Type, Topology)"]
     end
 
     subgraph "Simulation Pipeline"
         NL[Nova Lite<br/>Pipeline Orchestrator]
-        Sim[Simulator<br/>CaseInfo / FusionCaseInfo]
+        Sim["Simulator<br/>CaseInfo / FusionCaseInfo"]
         Executor[Executor<br/>BossaNovaExecutor]
         DG[Dataflow Generator<br/>Operation Specific]
         DF[Dataflow Core<br/>DAG Execution]
@@ -37,7 +37,7 @@ flowchart TD
     subgraph "Output & Visualization"
         Visual[Data Visual<br/>PostProcessor]
         Trace[Perfetto Protobuf<br/>Trace Generator]
-        Report[Performance Report<br/>(YAML, Metrics)]
+        Report["Performance Report<br/>(YAML, Metrics)"]
     end
 
     %% Data Flow
