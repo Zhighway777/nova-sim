@@ -200,14 +200,14 @@ classDiagram
 **Data Flow**:
 ```mermaid
 flowchart TD
-    A[External Request] --> B[AbstractGCU.process()]
-    B --> C[L1CManager.process()]
+    A[External Request] --> B["AbstractGCU.process()"]
+    B --> C["L1CManager.process()"]
     C --> D{L1 Hit?}
     D -->|Yes| E[Record Hit]
-    D -->|No| F[LLCManager.process()]
+    D -->|No| F["LLCManager.process()"]
     F --> G{LLC Hit?}
     G -->|Yes| H[Record LLC Hit]
-    G -->|No| I[L3Manager.process()]
+    G -->|No| I["L3Manager.process()"]
     I --> J[Record L3 Access]
     J --> K[Propagate back]
     H --> K
