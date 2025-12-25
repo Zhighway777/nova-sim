@@ -68,6 +68,7 @@ flowchart TD
     style CacheModel fill:#ffe0b2
     style Visual fill:#e8f5e9
     style Trace fill:#f3e5f5
+    
 ```
 
 ### Detailed Component Architecture
@@ -145,6 +146,7 @@ graph TB
     style CostService fill:#ffe0b2
     style DataVisual fill:#e8f5e9
     style Perfetto fill:#f3e5f5
+
 ```
 
 ## Core Modules Documentation
