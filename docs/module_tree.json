@@ -328,39 +328,7 @@
             "nova-platform.nova_platform.utils.fusion_utils.OperationInfo",
             "nova-platform.nova_platform.utils.gcu_utils.GCUData"
         ],
-        "children": {
-            "base_utils": {
-                "components": [
-                    "nova-platform.nova_platform.utils.base_utils.SingletonMeta",
-                    "nova-platform.nova_platform.utils.base_utils.hash_list",
-                    "nova-platform.nova_platform.utils.base_utils.BaseDataclass"
-                ],
-                "children": {}
-            },
-            "config_utils": {
-                "components": [
-                    "nova-platform.nova_platform.utils.config_utils.ConfigLoader",
-                    "nova-platform.nova_platform.utils.config_utils.Deserializable",
-                    "nova-platform.nova_platform.utils.config_utils.BaseEnum"
-                ],
-                "children": {}
-            },
-            "fusion_utils": {
-                "components": [
-                    "nova-platform.nova_platform.utils.fusion_utils.TensorInfo",
-                    "nova-platform.nova_platform.utils.fusion_utils.ScalarInfo",
-                    "nova-platform.nova_platform.utils.fusion_utils.MemoryAllocator",
-                    "nova-platform.nova_platform.utils.fusion_utils.OperationInfo"
-                ],
-                "children": {}
-            },
-            "gcu_utils": {
-                "components": [
-                    "nova-platform.nova_platform.utils.gcu_utils.GCUData"
-                ],
-                "children": {}
-            }
-        }
+        "children": {}
     },
     "optrace_benchmark": {
         "path": "optrace_benchmark.py",
